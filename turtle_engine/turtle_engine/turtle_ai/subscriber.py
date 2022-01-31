@@ -13,5 +13,3 @@ class Subscriber:
     def _message_callback(self, msg: dict = Optional[dict]) -> None:
         self.msg = msg
 
-    def get_message(self) -> Optional[dict]:
-        return self.msg

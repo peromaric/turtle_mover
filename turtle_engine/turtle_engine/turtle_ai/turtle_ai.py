@@ -11,8 +11,8 @@ class TurtleAi(Module):
         self.pose: Optional[dict] = None
         self.cmd_vel: Optional[dict] = None
         self.client = roslibpy.Ros(host='localhost', port=9090)
-        self.sub: Optional[roslibpy.Topic] = None
-        self.pub: Optional[roslibpy.Topic] = None
+        self.sub: Optional[Subscriber] = None
+        self.pub: Optional[Publisher] = None
 
     def connect_to_ros(self) -> None:
         self.client.run()
@@ -31,4 +31,4 @@ class TurtleAi(Module):
 
     def get_pose(self) -> Optional[dict]:
         # self._calculate_new_cmd()
-        return self.sub.
+        return self.sub.msg
