@@ -15,6 +15,7 @@ class TurtleAi(Module):
         self.pub: Optional[Publisher] = None
 
     def connect_to_ros(self) -> None:
+        # run ros client
         self.client.run()
         self.sub = Subscriber(self.client)
         self.pub = Publisher(self.client)
@@ -26,9 +27,11 @@ class TurtleAi(Module):
         self.client.terminate()
 
     def _calculate_new_cmd(self):
+        # improve logic please
         if self.pose['x'] <= 0 | self.pose['x'] >= 11:
             self.pub.publish(self.cmd_vel)
 
     def get_pose(self) -> Optional[dict]:
+        self.pose = self.sub.msg
         # self._calculate_new_cmd()
-        return self.sub.msg
+        return self.pose
