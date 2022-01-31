@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+.gridsquare {
+    height: 50px;
+    background-color: #97CADB;
+}
+
+.posed {
+    background-color: #D6E8EE
+}
+
+.food {
+    background-color: #a9c6cf
+}
+
+.img-fit {
+    width: 60%
+}
