@@ -25,7 +25,6 @@ class TurtleEngine:
         self.turtle_ai.connect_to_ros()
         self._run_uvicorn()
 
-
     def _run_uvicorn(self) -> None:
         uvicorn.run(self.api, host="0.0.0.0", port=8888)
 

@@ -1,8 +1,14 @@
+import time
+
 import roslibpy
 from typing import Optional
 from turtle_engine.module import Module
 from .subscriber import Subscriber
 from .publisher import Publisher
+from .msg_models.twist_msg import TwistMsg, Linear, Angular
+import time
+import random
+from threading import Thread
 
 
 class TurtleAi(Module):
@@ -20,18 +26,46 @@ class TurtleAi(Module):
         self.sub = Subscriber(self.client)
         self.pub = Publisher(self.client)
 
-        # publish initial cmd_vel
-        # self.pub.publish()
+        # set initial cmd_vel
+        self.cmd_vel = self._generate_cmd_vel(x=1)
+
+        # start the thread which tracks and updates the state of this class
+        Thread(target=self._update_turtle_state, daemon=True).start()
 
     def disconnect_from_ros(self) -> None:
         self.client.terminate()
 
-    def _calculate_new_cmd(self):
+    def _calculate_new_cmd(self) -> None:
         # improve logic please
-        if self.pose['x'] <= 0 | self.pose['x'] >= 11:
-            self.pub.publish(self.cmd_vel)
+        if int(self.pose['x']) <= 0 | int(self.pose['x']) >= 11.0:
+            self.cmd_vel = self._generate_cmd_vel(x=1, y=0, z=4)
+        elif int(self.pose['y']) <= 0 | int(self.pose['y']) >= 11:
+            self.cmd_vel = self._generate_cmd_vel(x=0, y=2, z=4)
+        else:
+            # hope nothing bad happens ;-o
+            self.cmd_vel = self._generate_cmd_vel(x=random.randint(0, 7),
+                                                  y=random.randint(0, 1),
+                                                  z=random.randint(-1, 1))
 
     def get_pose(self) -> Optional[dict]:
-        self.pose = self.sub.msg
-        # self._calculate_new_cmd()
         return self.pose
+
+    def _update_turtle_state(self):
+        while self.client.is_connected:
+            time.sleep(1)
+            self.pose = self.sub.msg
+            self._calculate_new_cmd()
+            self.pub.publish(self.cmd_vel)
+            print(self.pose, self.cmd_vel)
+
+    def _generate_cmd_vel(self, x: int = 0, y: int = 0, z: int = 0) -> dict:
+        cmd_vel = TwistMsg()
+        cmd_linear = Linear()
+        cmd_angular = Angular()
+        # float cast done on purpose, twist demands it
+        cmd_linear.x = float(x)
+        cmd_linear.y = float(y)
+        cmd_angular.z = float(z)
+        cmd_vel.linear = cmd_linear
+        cmd_vel.angular = cmd_angular
+        return cmd_vel.dict()
