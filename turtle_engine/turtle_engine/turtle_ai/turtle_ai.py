@@ -1,5 +1,3 @@
-import time
-
 import roslibpy
 from typing import Optional
 from turtle_engine.module import Module
@@ -36,18 +34,12 @@ class TurtleAi(Module):
         self.client.terminate()
 
     def _calculate_new_cmd(self) -> None:
-        # improve logic please
-        if int(self.pose['x']) <= 0 | int(self.pose['x']) >= 11.0:
-            self.cmd_vel = self._generate_cmd_vel(x=1, y=0, z=4)
-        elif int(self.pose['y']) <= 0 | int(self.pose['y']) >= 11:
-            self.cmd_vel = self._generate_cmd_vel(x=0, y=2, z=4)
-        else:
-            # hope nothing bad happens ;-o
-            self.cmd_vel = self._generate_cmd_vel(x=random.randint(0, 7),
-                                                  y=random.randint(0, 1),
-                                                  z=random.randint(-1, 1))
+        # hope nothing bad happens ;-o
+        self.cmd_vel = self._generate_cmd_vel(x=random.randint(-3, 3),
+                                              y=random.randint(-3, 3),
+                                              z=random.randint(0, 2))
 
-    def get_pose(self) -> Optional[dict]:
+    async def get_pose(self) -> Optional[dict]:
         return self.pose
 
     def _update_turtle_state(self):
@@ -56,7 +48,6 @@ class TurtleAi(Module):
             self.pose = self.sub.msg
             self._calculate_new_cmd()
             self.pub.publish(self.cmd_vel)
-            print(self.pose, self.cmd_vel)
 
     def _generate_cmd_vel(self, x: int = 0, y: int = 0, z: int = 0) -> dict:
         cmd_vel = TwistMsg()
