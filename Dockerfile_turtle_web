@@ -1,0 +1,9 @@
+FROM node:17
+
+WORKDIR /app
+
+COPY ./turtle_web .
+
+RUN npm install
+
+CMD ["npm", "start"]

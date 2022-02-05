@@ -2,6 +2,7 @@ version: "3"
 
 services:
   turtle_engine:
+    container_name: turtle_engine
     image: turtle_engine:latest
     build:
       context: .
@@ -11,4 +12,11 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
     network_mode: host
-    tty: true
+  
+  turtle_web:
+    container_name: turtle_web
+    image: turtle_web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_turtle_web
+    network_mode: host
