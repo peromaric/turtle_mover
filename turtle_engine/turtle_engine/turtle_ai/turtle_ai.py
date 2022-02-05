@@ -14,7 +14,7 @@ class TurtleAi(Module):
         super().__init__(turtle_engine)
         self.pose: Optional[dict] = None
         self.cmd_vel: Optional[dict] = None
-        self.client = roslibpy.Ros(host='localhost', port=9090)
+        self.client = roslibpy.Ros(host='0.0.0.0', port=9090)
         self.sub: Optional[Subscriber] = None
         self.pub: Optional[Publisher] = None
 

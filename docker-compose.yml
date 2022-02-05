@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  turtle_engine:
+    image: turtle_engine:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_turtle_engine
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: host
+    tty: true
