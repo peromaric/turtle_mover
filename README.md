@@ -3,7 +3,7 @@ a game where two robot turtles battle for salad - my ROS2 practice.
 
 it starts two turtlesim robots using ROS2 turtlesim launch files.
 frontend, written in plain ole javascript connects to one using
-websockets and displays it's pose. it also connects to an API,
+websockets and displays its pose. it also connects to an API,
 FastAPI to be exact, for two reasons:
 - you can spawn yummy salads for tutles to eat
 - get the other turtle's pose
