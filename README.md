@@ -26,3 +26,8 @@ Wait for the images to build and the app should start
 # open the web
 
 http://localhost:3000 to open the web
+
+# ideas on how to improve
+
+- need to implement better try-catch with logging in turtle_engine
+- frontend's pretty crappy, it was written in vanilla js and code's pretty much unreadable (the purpose of this project was to practice ROS and python with less focus on js)
