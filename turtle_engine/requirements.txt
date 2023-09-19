@@ -4,3 +4,5 @@ roslibpy~=1.2.1
 uvicorn[standard]~=0.15.0
 fastapi~=0.72.0
 fastapi-utils~=0.2.1
+pyOpenSSL~=22.0.0
+cryptography~=36.0.2
